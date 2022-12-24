@@ -15,14 +15,14 @@
                     <input @click.prevent="addPerson()"  class="btn btn-primary"  placeholder="Добавить">
                 </div>
             </div>
-
+            <SomeComponent></SomeComponent>
         </div>
     </div>
 </template>
 
 <script>
 
-
+import SomeComponent from "./SomeComponent.vue";
 export default {
     name: "CreateComponent",
     data(){
@@ -32,6 +32,13 @@ export default {
             job: null
         }
     },
+    mounted() {
+        console.log(this.$parent.$refs.index.indexLog(), 'create');
+
+    },
+    components:{
+        SomeComponent
+    },
     methods:{
         addPerson(){
             axios.post('/api/people', {name: this.name, age: this.age, job: this.job})
@@ -39,7 +46,7 @@ export default {
                     this.name = null
                     this.age = null
                     this.job = null
-                    console.log(res);
+                    this.$parent.$refs.index.getPeople()
                 })
         }
     }
