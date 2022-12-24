@@ -15,22 +15,35 @@
                     <input @click.prevent="addPerson()"  class="btn btn-primary"  placeholder="Добавить">
                 </div>
             </div>
-
+            <SomeComponent :obj="obj"></SomeComponent>
         </div>
     </div>
 </template>
 
 <script>
 
-
+import SomeComponent from "./SomeComponent.vue";
 export default {
     name: "CreateComponent",
     data(){
         return {
             name: null,
             age: null,
-            job: null
+            job: null,
+            obj: {
+                color: 'yellow',
+                number: 50,
+                isPublished: false
+
+            }
         }
+    },
+    mounted() {
+        console.log(this.$parent.$refs.index.indexLog(), 'create');
+
+    },
+    components:{
+        SomeComponent
     },
     methods:{
         addPerson(){
@@ -39,7 +52,7 @@ export default {
                     this.name = null
                     this.age = null
                     this.job = null
-                    console.log(res);
+                    this.$parent.$refs.index.getPeople()
                 })
         }
     }
