@@ -15,7 +15,7 @@
                     <input @click.prevent="addPerson()"  class="btn btn-primary"  placeholder="Добавить">
                 </div>
             </div>
-            <SomeComponent></SomeComponent>
+            <SomeComponent :obj="obj"></SomeComponent>
         </div>
     </div>
 </template>
@@ -29,7 +29,13 @@ export default {
         return {
             name: null,
             age: null,
-            job: null
+            job: null,
+            obj: {
+                color: 'yellow',
+                number: 50,
+                isPublished: false
+
+            }
         }
     },
     mounted() {
