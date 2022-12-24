@@ -1,7 +1,7 @@
 <template>
     <div class="">
         <CreateComponent></CreateComponent>
-        <SinglePostComponent></SinglePostComponent>
+        <IndexComponent></IndexComponent>
         <div>
 <!--            <table class="table">-->
 <!--                <thead>-->
@@ -29,8 +29,8 @@
 </template>
 
 <script>
-import SinglePostComponent from "./SinglePostComponent.vue";
 import CreateComponent from "./CreateComponent.vue";
+import IndexComponent from "./IndexComponent.vue";
 
 export default {
     name: "PostComponent",
@@ -42,25 +42,13 @@ export default {
         }
     },
     mounted() {
-        // this.getPersons()
     },
     methods: {
-        getPersons(){
-            axios.get('/persons')
-                .then(res =>{
-                    this.persons = res.data
-                })
-                .catch( error =>{
 
-                })
-                .finally({
-
-                })
-        }
     },
     components: {
-        SinglePostComponent,
-        CreateComponent
+        CreateComponent,
+        IndexComponent
     },
 }
 </script>
