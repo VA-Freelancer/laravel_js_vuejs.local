@@ -13,19 +13,19 @@
                 </thead>
                 <tbody>
                 <template v-for="person in people">
-                    <tr>
+                    <tr :class="isEdit(person.id) ? 'd-none' : ''">
                         <th scope="row">{{ person.id }}</th>
                         <td>{{ person.name }}</td>
                         <td>{{ person.age }}</td>
                         <td>{{ person.job }}</td>
-                        <td><a href="#" @click.prevent="changeEditPersonId(person.id)" class="btn btn-success">Edit</a></td>
+                        <td><a href="#" @click.prevent="changeEditPersonId(person.id, person.name, person.age, person.job)" class="btn btn-success">Edit</a></td>
                     </tr>
                     <tr :class="isEdit(person.id) ? '' : 'd-none'">
                         <th scope="row">{{ person.id }}</th>
-                        <th scope="row"> <input type="text" name="" id="" class="form-control"> </th>
-                        <th scope="row"> <input type="number" name="" id="" class="form-control"> </th>
-                        <th scope="row"> <input type="text" name="" id="" class="form-control"> </th>
-                        <td><a href="#" @click.prevent="changeEditPersonId(null)" class="btn btn-success" >Update</a></td>
+                        <th scope="row"> <input type="text" v-model="name" name="name" id="name" class="form-control"> </th>
+                        <th scope="row"> <input type="number" v-model="age" name="age" id="age" class="form-control"> </th>
+                        <th scope="row"> <input type="text" v-model="job" name="job" id="job" class="form-control"> </th>
+                        <td><a href="#" @click.prevent="updatePerson(person.id)" class="btn btn-success" >Update</a></td>
                     </tr>
                 </template>
 
@@ -43,7 +43,10 @@ export default {
     data(){
         return {
             people: null,
-            editPersonId: null
+            editPersonId: null,
+            name: null,
+            age: null,
+            job: null
         }
     },
     mounted() {
@@ -56,9 +59,18 @@ export default {
                     this.people = res.data;
                 })
         },
-        changeEditPersonId(id){
-            console.log(id);
+        updatePerson(id){
+            this.editPersonId = null
+            axios.patch(`/api/people/${id}`, {name: this.name, age: this.age, job: this.job})
+                .then(res =>{
+                    this.getPeople()
+                })
+        },
+        changeEditPersonId(id, name, age, job){
             this.editPersonId = id;
+            this.name = name;
+            this.age = age;
+            this.job = job;
         },
         isEdit(id){
             return this.editPersonId === id
@@ -71,5 +83,8 @@ export default {
 <style scoped>
     .btn.btn-primary::placeholder{
         color: #fff !important;
+    }
+    .row .form-control{
+        max-width: max-content;
     }
 </style>
