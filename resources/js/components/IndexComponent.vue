@@ -22,13 +22,7 @@
                         <td><a href="#" @click.prevent="changeEditPersonId(person.id, person.name, person.age, person.job)" class="btn btn-success">Edit</a></td>
                         <td  :class="this.isDelete ? 'd-none' : ''"><a href="#" @click.prevent="deletePerson(person.id)" class="btn btn-danger" >Delete</a></td>
                     </tr>
-                    <tr :class="isEdit(person.id) ? '' : 'd-none'">
-                        <th scope="row">{{ person.id }}</th>
-                        <th scope="row"> <input type="text" v-model="name" name="name" id="name" class="form-control"> </th>
-                        <th scope="row"> <input type="number" v-model="age" name="age" id="age" class="form-control"> </th>
-                        <th scope="row"> <input type="text" v-model="job" name="job" id="job" class="form-control"> </th>
-                        <td><a href="#" @click.prevent="updatePerson(person.id)" class="btn btn-success" >Update</a></td>
-                    </tr>
+                    <EditComponent :person="person" :ref="`edit_${person.id }`"></EditComponent>
                 </template>
 
                 </tbody>
@@ -38,10 +32,11 @@
 </template>
 
 <script>
-
+import EditComponent from "./EditComponent.vue";
 
 export default {
     name: "IndexComponent",
+
     data(){
         return {
             people: null,
@@ -54,7 +49,9 @@ export default {
     },
     mounted() {
         this.getPeople()
-        console.log(this.$parent.parentLog());
+    },
+    components:{
+        EditComponent
     },
     methods:{
         getPeople(){
@@ -80,9 +77,11 @@ export default {
         changeEditPersonId(id, name, age, job){
             this.isDelete = true;
             this.editPersonId = id;
-            this.name = name;
-            this.age = age;
-            this.job = job;
+            let editName = `edit_${id}`
+            let fullEditName = this.$refs[editName][0]
+            fullEditName.name = name;
+            fullEditName.age = age;
+            fullEditName.job = job;
         },
         isEdit(id){
             return this.editPersonId === id

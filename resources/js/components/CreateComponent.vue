@@ -15,7 +15,7 @@
                     <input @click.prevent="addPerson()"  class="btn btn-primary"  placeholder="Добавить">
                 </div>
             </div>
-            <SomeComponent :obj="obj"></SomeComponent>
+            <SomeComponent :obj="obj" ></SomeComponent>
         </div>
     </div>
 </template>
